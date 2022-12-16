@@ -115,7 +115,7 @@ public class LuaChon extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void NhanVienActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NhanVienActionPerformed
-        this.setVisible(true);
+        this.setVisible(false);
         DangNhapNhanVien n = new DangNhapNhanVien();
         n.setVisible(true);
         n.setLocationRelativeTo(null);
@@ -132,7 +132,7 @@ public class LuaChon extends javax.swing.JFrame {
     }//GEN-LAST:event_BT_QuayLaiActionPerformed
 
     private void AdminActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AdminActionPerformed
-        this.setVisible(true);
+        this.setVisible(false);
         DangNhap n = new DangNhap();
         n.setVisible(true);
         n.setLocationRelativeTo(null);

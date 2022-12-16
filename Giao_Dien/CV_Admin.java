@@ -4,6 +4,9 @@
  */
 package Giao_Dien;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author ASUS
@@ -16,6 +19,12 @@ public class CV_Admin extends javax.swing.JFrame {
     public CV_Admin() {
         initComponents();
     }
+    private QuanLiNhanVien nhanvien;
+    private ChiTietNhap chitietnhap;
+    private ChiTietXuat chitietxuat;
+    private QuanLiNCC nhacungcap;
+    private TonKho_Ad tonkho;
+  
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -26,21 +35,158 @@ public class CV_Admin extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jMenu1 = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        MainBorad = new javax.swing.JTabbedPane();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu3 = new javax.swing.JMenu();
+        Dangxuat = new javax.swing.JMenuItem();
+        Tonkho = new javax.swing.JMenuItem();
+        jMenu5 = new javax.swing.JMenu();
+        ChiTietNhapKho = new javax.swing.JMenuItem();
+        ChiTietXuatKho = new javax.swing.JMenuItem();
+        jMenu2 = new javax.swing.JMenu();
+        NhanVien = new javax.swing.JMenuItem();
+        NhaCungCap = new javax.swing.JMenuItem();
+
+        jMenu1.setText("jMenu1");
+
+        jMenuItem1.setText("jMenuItem1");
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        MainBorad.setBackground(new java.awt.Color(255, 255, 204));
+        MainBorad.setForeground(new java.awt.Color(255, 255, 204));
+
+        jMenu3.setText("Hệ thống");
+
+        Dangxuat.setText("Đăng xuất");
+        Dangxuat.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                DangxuatActionPerformed(evt);
+            }
+        });
+        jMenu3.add(Dangxuat);
+
+        Tonkho.setText("Tồn kho");
+        Tonkho.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                TonkhoActionPerformed(evt);
+            }
+        });
+        jMenu3.add(Tonkho);
+
+        jMenuBar1.add(jMenu3);
+
+        jMenu5.setText("Sổ chi tiết");
+
+        ChiTietNhapKho.setText("Nhập Kho");
+        ChiTietNhapKho.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ChiTietNhapKhoActionPerformed(evt);
+            }
+        });
+        jMenu5.add(ChiTietNhapKho);
+
+        ChiTietXuatKho.setText("Xuất Kho");
+        ChiTietXuatKho.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ChiTietXuatKhoActionPerformed(evt);
+            }
+        });
+        jMenu5.add(ChiTietXuatKho);
+
+        jMenuBar1.add(jMenu5);
+
+        jMenu2.setText("Quản lí");
+
+        NhanVien.setText("Danh sách nhân viên");
+        NhanVien.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                NhanVienActionPerformed(evt);
+            }
+        });
+        jMenu2.add(NhanVien);
+
+        NhaCungCap.setText("Danh sách nhà cung cấp");
+        NhaCungCap.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                NhaCungCapActionPerformed(evt);
+            }
+        });
+        jMenu2.add(NhaCungCap);
+
+        jMenuBar1.add(jMenu2);
+
+        setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(MainBorad, javax.swing.GroupLayout.DEFAULT_SIZE, 388, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(MainBorad, javax.swing.GroupLayout.DEFAULT_SIZE, 272, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void DangxuatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DangxuatActionPerformed
+        this.setVisible(false);
+        DangNhap d = new DangNhap();
+        d.setVisible(true);
+        d.setLocationRelativeTo(null);
+
+    }//GEN-LAST:event_DangxuatActionPerformed
+
+    private void TonkhoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TonkhoActionPerformed
+        if (tonkho == null) {
+            tonkho = new TonKho_Ad();
+            MainBorad.addTab("Thông tin tồn kho", null, tonkho);
+        }
+        MainBorad.setSelectedComponent(tonkho);
+    }//GEN-LAST:event_TonkhoActionPerformed
+
+    private void ChiTietNhapKhoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ChiTietNhapKhoActionPerformed
+        if (chitietnhap == null) {
+            chitietnhap = new ChiTietNhap();
+            MainBorad.addTab("Sổ chi tiết nhập kho", null, chitietnhap);
+        }
+        MainBorad.setSelectedComponent(chitietnhap);
+    }//GEN-LAST:event_ChiTietNhapKhoActionPerformed
+
+    private void ChiTietXuatKhoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ChiTietXuatKhoActionPerformed
+        if (chitietxuat == null) {
+            chitietxuat = new ChiTietXuat();
+            MainBorad.addTab("Sổ chi tiết xuất kho", null, chitietxuat);
+        }
+        MainBorad.setSelectedComponent(chitietxuat);
+    }//GEN-LAST:event_ChiTietXuatKhoActionPerformed
+
+    private void NhanVienActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NhanVienActionPerformed
+        if (nhanvien == null) {
+            nhanvien = new QuanLiNhanVien();
+            MainBorad.addTab("Quản lí nhân viên", null, nhanvien);
+        }
+        MainBorad.setSelectedComponent(nhanvien);
+    }//GEN-LAST:event_NhanVienActionPerformed
+
+    private void NhaCungCapActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NhaCungCapActionPerformed
+        if (nhacungcap == null) {
+            nhacungcap = new QuanLiNCC();
+            MainBorad.addTab("Quản lí nhà cung cấp", null, nhacungcap);
+        }
+        MainBorad.setSelectedComponent(nhacungcap);
+    }//GEN-LAST:event_NhaCungCapActionPerformed
 
     /**
      * @param args the command line arguments
@@ -78,5 +224,18 @@ public class CV_Admin extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem ChiTietNhapKho;
+    private javax.swing.JMenuItem ChiTietXuatKho;
+    private javax.swing.JMenuItem Dangxuat;
+    private javax.swing.JTabbedPane MainBorad;
+    private javax.swing.JMenuItem NhaCungCap;
+    private javax.swing.JMenuItem NhanVien;
+    private javax.swing.JMenuItem Tonkho;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenu jMenu3;
+    private javax.swing.JMenu jMenu5;
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
     // End of variables declaration//GEN-END:variables
 }

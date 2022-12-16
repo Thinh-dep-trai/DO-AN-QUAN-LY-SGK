@@ -4,6 +4,30 @@
  */
 package Giao_Dien;
 
+import java.awt.Dimension;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.table.DefaultTableModel;
+import org.apache.poi.ss.usermodel.BorderStyle;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.CellType;
+import org.apache.poi.ss.usermodel.FillPatternType;
+import org.apache.poi.ss.usermodel.HorizontalAlignment;
+import org.apache.poi.ss.usermodel.IndexedColors;
+import org.apache.poi.xssf.usermodel.XSSFFont;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
 /**
  *
  * @author ASUS
@@ -13,8 +37,36 @@ public class ChiTietXuatKho extends javax.swing.JPanel {
     /**
      * Creates new form ChiTietXuatKho
      */
+    DefaultTableModel model;
+
     public ChiTietXuatKho() {
         initComponents();
+        model = (DefaultTableModel) jTable1.getModel();
+        LoadData();
+    }
+
+    public void LoadData() {
+        try {
+            Connection con = Database.getConnection();
+
+            String sql = "select * from SoChiTietXuat";
+
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+
+            int i = 1;
+            while (rs.next()) {
+
+                model.addRow(new Object[]{
+                    i, rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4),
+                    rs.getString(5), rs.getString(6), rs.getInt(7), rs.getFloat(8), rs.getFloat(7) * rs.getFloat(8)
+                });
+                i++;
+            }
+            con.close();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
     }
 
     /**
@@ -48,7 +100,7 @@ public class ChiTietXuatKho extends javax.swing.JPanel {
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        jTable1 = new javax.swing.JTable();
 
         jPanel1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
@@ -76,6 +128,11 @@ public class ChiTietXuatKho extends javax.swing.JPanel {
         jButton1.setText("Tìm kiếm");
 
         jButton3.setText("In file excel");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jLabel22.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
         jLabel22.setText("Mã nhà cung cấp:");
@@ -166,39 +223,23 @@ public class ChiTietXuatKho extends javax.swing.JPanel {
         jLabel1.setFont(new java.awt.Font("Segoe UI", 3, 36)); // NOI18N
         jLabel1.setText("Sổ chi tiết xuất kho");
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null}
+
             },
             new String [] {
-                "Số thứ tự", "Thời gian giao dịch", "Mã sản phẩm", "Tên sản phẩm", "Mã nhà cung cấp", "Đơn vị tính", "Số lượng ", "Đơn giá"
+                "Số thứ tự", "Mã phiếu xuất", "Mã sản phẩm", "Thời gian giao dịch", "Mã nhân viên", "Tên người nhận", "Đơn vị tính", "Số lượng ", "Đơn giá", "Thành tiền"
             }
-        ));
-        jScrollPane2.setViewportView(jTable2);
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Float.class, java.lang.Float.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        jScrollPane2.setViewportView(jTable1);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -247,6 +288,110 @@ public class ChiTietXuatKho extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        try {
+            XSSFWorkbook wb = new XSSFWorkbook();
+            XSSFSheet sheet = wb.createSheet("danhsach");
+            XSSFRow row = null;
+            Cell cell = null;
+            CellStyle style = null;
+            // Creating a font
+            XSSFFont font = wb.createFont();
+            font.setFontHeightInPoints((short) 10);
+            font.setFontName("Verdana");
+            font.setColor(IndexedColors.WHITE.getIndex());
+            font.setBold(true);
+
+            // Creating cell Style
+            style = wb.createCellStyle();
+
+            // Setting Foreground Colour
+            style.setFillForegroundColor(IndexedColors.GREEN.getIndex());
+            style.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+            style.setBorderTop(BorderStyle.THIN);
+            style.setBorderRight(BorderStyle.THIN);
+            style.setBorderBottom(BorderStyle.THIN);
+            style.setBorderLeft(BorderStyle.THIN);
+
+            // Setting Alignment of font
+            style.setAlignment(HorizontalAlignment.CENTER);
+
+            // Setting font to style
+            style.setFont(font);
+
+            row = sheet.createRow(4);
+
+            cell = row.createCell(0, CellType.STRING);
+            cell.setCellValue("STT");
+            cell.setCellStyle(style);
+            cell = row.createCell(1, CellType.STRING);
+            cell.setCellValue("Mã Phiếu xuất");
+            cell.setCellStyle(style);
+            cell = row.createCell(2, CellType.STRING);
+            cell.setCellValue("Mã sản phẩm");
+            cell.setCellStyle(style);
+            cell = row.createCell(3, CellType.STRING);
+            cell.setCellValue("Thời gian giao dịch");
+            cell.setCellStyle(style);
+            cell = row.createCell(4, CellType.STRING);
+            cell.setCellValue("Mã nhân viên");
+            cell.setCellStyle(style);
+            cell = row.createCell(5, CellType.STRING);
+            cell.setCellValue("Tên người nhận");
+            cell.setCellStyle(style);
+            cell = row.createCell(6, CellType.STRING);
+            cell.setCellValue("Đơn vị tính");
+            cell.setCellStyle(style);
+            cell = row.createCell(7, CellType.STRING);
+            cell.setCellValue("Số Lượng");
+            cell.setCellStyle(style);
+            cell = row.createCell(8, CellType.STRING);
+            cell.setCellValue("Đơn giá");
+            cell.setCellStyle(style);
+            cell = row.createCell(9, CellType.STRING);
+            cell.setCellValue("Thành tiền");
+            cell.setCellStyle(style);
+
+            for (int i = 0; i < jTable1.getRowCount(); i++) {
+                row = sheet.createRow(5 + i);
+                for (int j = 0; j < 10; j++) {
+                    cell = row.createCell(j, CellType.STRING);
+                    cell.setCellValue(jTable1.getValueAt(i, j).toString());
+
+                    CellStyle cstyle = wb.createCellStyle();
+                    cstyle.setAlignment(HorizontalAlignment.CENTER);
+                    cstyle.setBorderRight(BorderStyle.THIN);
+                    cstyle.setBorderBottom(BorderStyle.THIN);
+                    cstyle.setBorderLeft(BorderStyle.THIN);
+                    cell.setCellStyle(cstyle);
+                }
+            }
+            for (int i = 0; i < 10; i++) {
+                sheet.autoSizeColumn(i);
+            }
+            try {
+                JFileChooser fc = new JFileChooser();
+                fc.setPreferredSize(new Dimension(800, 550));
+                FileFilter filter = new FileNameExtensionFilter("Excel file", "xls", "xlsx");
+                fc.addChoosableFileFilter(filter);
+                fc.setMultiSelectionEnabled(false);
+                int t = fc.showDialog(this, "Open");
+                if (t == JFileChooser.APPROVE_OPTION) {
+                    FileOutputStream fo = new FileOutputStream(fc.getSelectedFile());
+                    wb.write(fo);
+                    fo.close();
+                    JOptionPane.showMessageDialog(this, "In thành công!");
+                }
+            } catch (FileNotFoundException e) {
+                System.out.println(e);
+            }
+
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }//GEN-LAST:event_jButton3ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
@@ -263,7 +408,7 @@ public class ChiTietXuatKho extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable2;
+    private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField13;
     private javax.swing.JTextField jTextField14;
     private javax.swing.JTextField jTextField15;

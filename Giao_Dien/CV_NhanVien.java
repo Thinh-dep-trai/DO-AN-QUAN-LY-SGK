@@ -6,6 +6,7 @@ package Giao_Dien;
 
 import javax.swing.ImageIcon;
 
+
 /**
  *
  * @author ASUS
@@ -14,9 +15,10 @@ public class CV_NhanVien extends javax.swing.JFrame {
 
     private PhieuNhapKho Phieu_Nhap;
     private PhieuXuatKho Phieu_Xuat;
-    private PhieuKiemKe Phieu_KiemKe;
     private ChiTietNhapKho chitietnhap;
     private ChiTietXuatKho chitietxuat;
+    private ThongTinTaiKhoan tt_taikhoan;
+    private TonKho tonkho;
 
     /**
      * Creates new form CV_NhanVien
@@ -40,18 +42,15 @@ public class CV_NhanVien extends javax.swing.JFrame {
         MainBorad = new javax.swing.JTabbedPane();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
+        TT_TaiKhoan = new javax.swing.JMenuItem();
+        Tonkho = new javax.swing.JMenuItem();
         Dangxuat = new javax.swing.JMenuItem();
-        jMenu2 = new javax.swing.JMenu();
         jMenu4 = new javax.swing.JMenu();
         PhieuNhapKho = new javax.swing.JMenuItem();
         PhieuXuatKho = new javax.swing.JMenuItem();
-        PhieuKiemKe = new javax.swing.JMenuItem();
         jMenu5 = new javax.swing.JMenu();
         ChiTietNhapKho = new javax.swing.JMenuItem();
         ChiTietXuatKho = new javax.swing.JMenuItem();
-        jMenuItem6 = new javax.swing.JMenuItem();
-        jMenu6 = new javax.swing.JMenu();
 
         jMenu3.setText("jMenu3");
 
@@ -66,8 +65,21 @@ public class CV_NhanVien extends javax.swing.JFrame {
 
         jMenu1.setText("Hệ thống");
 
-        jMenuItem1.setText("Thông tin tài khoản");
-        jMenu1.add(jMenuItem1);
+        TT_TaiKhoan.setText("Thông tin tài khoản");
+        TT_TaiKhoan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                TT_TaiKhoanActionPerformed(evt);
+            }
+        });
+        jMenu1.add(TT_TaiKhoan);
+
+        Tonkho.setText("Tồn kho");
+        Tonkho.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                TonkhoActionPerformed(evt);
+            }
+        });
+        jMenu1.add(Tonkho);
 
         Dangxuat.setText("Đăng xuất");
         Dangxuat.addActionListener(new java.awt.event.ActionListener() {
@@ -78,9 +90,6 @@ public class CV_NhanVien extends javax.swing.JFrame {
         jMenu1.add(Dangxuat);
 
         jMenuBar1.add(jMenu1);
-
-        jMenu2.setText("Thông tin ");
-        jMenuBar1.add(jMenu2);
 
         jMenu4.setText("Tạo phiếu");
 
@@ -99,14 +108,6 @@ public class CV_NhanVien extends javax.swing.JFrame {
             }
         });
         jMenu4.add(PhieuXuatKho);
-
-        PhieuKiemKe.setText("Phiếu kiểm kê");
-        PhieuKiemKe.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                PhieuKiemKeActionPerformed(evt);
-            }
-        });
-        jMenu4.add(PhieuKiemKe);
 
         jMenuBar1.add(jMenu4);
 
@@ -128,13 +129,7 @@ public class CV_NhanVien extends javax.swing.JFrame {
         });
         jMenu5.add(ChiTietXuatKho);
 
-        jMenuItem6.setText("Kiểm kê");
-        jMenu5.add(jMenuItem6);
-
         jMenuBar1.add(jMenu5);
-
-        jMenu6.setText("Lập báo cáo");
-        jMenuBar1.add(jMenu6);
 
         setJMenuBar(jMenuBar1);
 
@@ -142,11 +137,17 @@ public class CV_NhanVien extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(MainBorad, javax.swing.GroupLayout.DEFAULT_SIZE, 511, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(MainBorad, javax.swing.GroupLayout.DEFAULT_SIZE, 567, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(MainBorad, javax.swing.GroupLayout.DEFAULT_SIZE, 295, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(MainBorad, javax.swing.GroupLayout.DEFAULT_SIZE, 308, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
@@ -168,14 +169,6 @@ public class CV_NhanVien extends javax.swing.JFrame {
         MainBorad.setSelectedComponent(Phieu_Xuat);
     }//GEN-LAST:event_PhieuXuatKhoActionPerformed
 
-    private void PhieuKiemKeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PhieuKiemKeActionPerformed
-        if (Phieu_KiemKe == null) {
-            Phieu_KiemKe = new PhieuKiemKe();
-            MainBorad.addTab("Tạo phiếu kiểm kê", null, Phieu_KiemKe);
-        }
-        MainBorad.setSelectedComponent(Phieu_KiemKe);
-    }//GEN-LAST:event_PhieuKiemKeActionPerformed
-
     private void ChiTietNhapKhoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ChiTietNhapKhoActionPerformed
         if (chitietnhap == null) {
             chitietnhap = new ChiTietNhapKho();
@@ -195,13 +188,27 @@ public class CV_NhanVien extends javax.swing.JFrame {
     private void DangxuatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DangxuatActionPerformed
        this.setVisible(false);
        DangNhapNhanVien d = new DangNhapNhanVien();
-       LuaChon l = new LuaChon();
-       l.setVisible(true);
-       l.setLocationRelativeTo(null);
        d.setVisible(true);
        d.setLocationRelativeTo(null);
        
     }//GEN-LAST:event_DangxuatActionPerformed
+
+    private void TT_TaiKhoanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TT_TaiKhoanActionPerformed
+        if (tt_taikhoan == null) {
+           tt_taikhoan = new ThongTinTaiKhoan();
+            MainBorad.addTab("Thông tin tài khoản", null, tt_taikhoan);
+        }
+        MainBorad.setSelectedComponent(tt_taikhoan);
+                                                 
+    }//GEN-LAST:event_TT_TaiKhoanActionPerformed
+
+    private void TonkhoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TonkhoActionPerformed
+        if (tonkho == null) {
+            tonkho = new TonKho();
+            MainBorad.addTab("Thông tin tồn kho", null, tonkho);
+        }
+        MainBorad.setSelectedComponent(tonkho);
+    }//GEN-LAST:event_TonkhoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -245,19 +252,16 @@ public class CV_NhanVien extends javax.swing.JFrame {
     private javax.swing.JMenuItem ChiTietXuatKho;
     private javax.swing.JMenuItem Dangxuat;
     private javax.swing.JTabbedPane MainBorad;
-    private javax.swing.JMenuItem PhieuKiemKe;
     private javax.swing.JMenuItem PhieuNhapKho;
     private javax.swing.JMenuItem PhieuXuatKho;
+    private javax.swing.JMenuItem TT_TaiKhoan;
+    private javax.swing.JMenuItem Tonkho;
     private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenu jMenu5;
-    private javax.swing.JMenu jMenu6;
     private javax.swing.JMenu jMenu8;
     private javax.swing.JMenu jMenu9;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem6;
     // End of variables declaration//GEN-END:variables
 }

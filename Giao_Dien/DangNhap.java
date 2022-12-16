@@ -1,5 +1,8 @@
 package Giao_Dien;
 
+import javax.swing.JOptionPane;
+import java.sql.*;
+
 public class DangNhap extends javax.swing.JFrame {
 
     public DangNhap() {
@@ -14,10 +17,10 @@ public class DangNhap extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        txtTDN = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
-        jPasswordField1 = new javax.swing.JPasswordField();
+        pwMK = new javax.swing.JPasswordField();
         BT_QuayLai = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
         jSeparator2 = new javax.swing.JSeparator();
@@ -49,6 +52,11 @@ public class DangNhap extends javax.swing.JFrame {
         jButton1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.setText("Đăng Nhập Ngay");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         BT_QuayLai.setBackground(new java.awt.Color(0, 0, 0));
         BT_QuayLai.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -75,8 +83,8 @@ public class DangNhap extends javax.swing.JFrame {
                     .addComponent(jLabel4))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 162, Short.MAX_VALUE)
-                    .addComponent(jPasswordField1))
+                    .addComponent(txtTDN, javax.swing.GroupLayout.DEFAULT_SIZE, 162, Short.MAX_VALUE)
+                    .addComponent(pwMK))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(113, 113, 113)
@@ -106,12 +114,12 @@ public class DangNhap extends javax.swing.JFrame {
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtTDN, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3))
                 .addGap(29, 29, 29)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(pwMK, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(24, 24, 24)
                 .addComponent(jButton1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -137,6 +145,48 @@ public class DangNhap extends javax.swing.JFrame {
 
         // TODO add your handling code here:
     }//GEN-LAST:event_BT_QuayLaiActionPerformed
+   
+    public boolean checkNull() {
+        if (txtTDN.getText().equals("")) {
+            JOptionPane.showMessageDialog(this, "Chưa nhập tài khoản");
+            txtTDN.requestFocus();
+            return false;
+        } else if (pwMK.getText().equals("")) {
+            JOptionPane.showMessageDialog(this, "Chưa nhập mật khẩu");
+            pwMK.requestFocus();
+            return false;
+        } else {
+            return true;
+        }
+    }
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        if(checkNull()){
+            try{
+                String query ="select TenDangNhap,MatKhau\n"
+                             +"from DangNhap\n"
+                             +"where TenDangNhap = ? and MatKhau = ? and ChucVu = 'admin'";
+                Connection conn = new Database().getConnection();
+                PreparedStatement ps = conn.prepareStatement(query);
+                ps.setString(1, txtTDN.getText());
+                ps.setString(2,pwMK.getText());
+                ResultSet rs = ps.executeQuery();
+                if(rs.next()){
+                       CV_Admin cv = new CV_Admin();
+                       cv.setVisible(true);
+                       cv.setLocationRelativeTo(null);
+                       LuaChon l = new LuaChon();
+                       l.setVisible(false);
+                       this.setVisible(false);                      
+                }
+                else {
+                    JOptionPane.showMessageDialog(this,"Tên đăng nhập hoặc mật khẩu sai");
+                }
+            }
+            catch(Exception ex){
+                System.out.println(ex);
+            }
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     public static void main(String args[]) {
         try {
@@ -176,9 +226,9 @@ public class DangNhap extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPasswordField jPasswordField1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JPasswordField pwMK;
+    private javax.swing.JTextField txtTDN;
     // End of variables declaration//GEN-END:variables
 }
